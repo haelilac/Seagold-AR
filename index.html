@@ -25,6 +25,8 @@
     </a-scene>
 
     <script>
+      document.querySelector('.mindar-ui-overlay .scanning')?.insertAdjacentHTML('beforeend', '<div style="margin-top: 12px; color: white;">Scan your card</div>');
+
       document.addEventListener("DOMContentLoaded", () => {
         const mapOverlay = document.getElementById("map-overlay");
         const scene = document.querySelector("a-scene");
