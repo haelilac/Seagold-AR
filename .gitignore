@@ -1,0 +1,12 @@
+# Node.js
+node_modules/
+package-lock.json
+
+# Vercel / Netlify / build tools (if any)
+.vscode/
+dist/
+.env
+
+# OS
+.DS_Store
+Thumbs.db

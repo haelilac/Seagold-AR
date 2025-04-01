@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title>Seagold AR Business Card</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mindar-aframe@1.1.4/dist/mindar-image-aframe.prod.js"></script>
+    <script src="mindar/mindar-image-aframe.prod.js"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -15,7 +15,7 @@
       ></iframe>
     </div>
 
-    <a-scene mindar-image="imageTargetSrc: assets/back.mind; autoStart: true; uiScanning: true;"
+    <a-scene mindar-image="imageTargetSrc: assets/back.mind; autoStart: true; uiScanning: true; wasmPath: ./mindar/"
              embedded color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights"
              device-orientation-permission-ui="enabled: true">
       <a-camera position="0 0 0"></a-camera>
