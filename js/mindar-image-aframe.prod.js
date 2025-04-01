@@ -1,0 +1,1 @@
+Couldn't find the requested file /dist/aframe/mindar-image-aframe.prod.js in mind-ar.
