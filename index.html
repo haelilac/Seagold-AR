@@ -35,12 +35,12 @@
 
         scene.addEventListener("targetFound", () => {
           console.log("🎯 Target found!");
-          mapOverlay.style.display = "block";
+          mapOverlay.classList.add("show");
         });
 
         scene.addEventListener("targetLost", () => {
           console.log("👋 Target lost!");
-          mapOverlay.style.display = "none";
+          mapOverlay.classList.remove("show");
         });
       });
     </script>

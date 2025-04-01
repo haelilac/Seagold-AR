@@ -3,13 +3,37 @@ body {
   margin: 0;
   overflow: hidden;
 }
+/* Animation */
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 40%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0%);
+  }
+}
+
 .map-overlay {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 360px;
-  height: 240px;
+  bottom: 30%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 280px;
+  height: 180px;
   display: none;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  opacity: 0;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
   z-index: 10;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: opacity 0.3s ease;
 }
+
+.map-overlay.show {
+  display: block;
+  animation: slideUp 0.5s ease forwards;
+}
+
+
