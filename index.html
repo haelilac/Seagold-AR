@@ -18,17 +18,21 @@
              embedded color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights"
              device-orientation-permission-ui="enabled: true">
       <a-camera position="0 0 0"></a-camera>
-      <a-entity mindar-image-target="targetIndex: 0">
-        <a-plane id="map-anchor" position="0 0 0" width="1" height="0.5" color="#00FFAA"></a-plane>
+      <a-entity id="anchor" mindar-image-target="targetIndex: 0">
+        <a-plane position="0 0 0" width="1" height="0.5" color="#00FFAA"></a-plane>
       </a-entity>
     </a-scene>
 
     <script>
-      document.querySelector('.mindar-ui-overlay .scanning')?.insertAdjacentHTML('beforeend', '<div style="margin-top: 12px; color: white;">Scan your card</div>');
+      // Add custom scan text
+      document.querySelector('.mindar-ui-overlay .scanning')?.insertAdjacentHTML(
+        'beforeend',
+        '<div style="margin-top: 12px; color: white;">Scan your card</div>'
+      );
 
       const mapOverlay = document.getElementById("map-overlay");
       const mapDiv = document.getElementById("map");
-      const anchor = document.getElementById("map-anchor");
+      const anchor = document.getElementById("anchor");
 
       document.addEventListener("DOMContentLoaded", () => {
         const scene = document.querySelector("a-scene");
@@ -108,7 +112,7 @@
           mapOverlay.classList.remove("show");
         });
 
-        // Map follows anchor (just like Zappar)
+        // Track the 3D position of anchor and move map overlay to match
         scene.addEventListener("loaded", () => {
           scene.renderer.xr.addEventListener("sessionstart", () => {
             const update = () => {
@@ -120,16 +124,16 @@
               const worldPos = new THREE.Vector3();
               anchor.object3D.getWorldPosition(worldPos);
 
-              const cam = scene.camera;
-              const width = scene.renderer.domElement.width;
-              const height = scene.renderer.domElement.height;
+              const camera = scene.camera;
+              const canvas = scene.renderer.domElement;
 
-              const projected = worldPos.clone().project(cam);
-              const x = (projected.x * 0.5 + 0.5) * width;
-              const y = (1 - (projected.y * 0.5 + 0.5)) * height;
+              const projected = worldPos.clone().project(camera);
+              const x = (projected.x * 0.5 + 0.5) * canvas.clientWidth;
+              const y = (1 - (projected.y * 0.5 + 0.5)) * canvas.clientHeight;
 
-              mapOverlay.style.left = `${x - 200}px`;
-              mapOverlay.style.top = `${y - 150}px`;
+              // Position map offset from anchor (adjust as needed)
+              mapOverlay.style.left = `${x - 100}px`;  // Shift horizontally
+              mapOverlay.style.top = `${y - 520}px`;   // Shift above the anchor
 
               requestAnimationFrame(update);
             };
