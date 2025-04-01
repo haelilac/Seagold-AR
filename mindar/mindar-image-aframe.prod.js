@@ -1,0 +1,1 @@
+// MindAR A-Frame loader (replace with actual if needed)
