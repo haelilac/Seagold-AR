@@ -4,19 +4,27 @@ body {
   overflow: hidden;
 }
 
-/* Override MindAR scanner overlay */
-
+/* Make the scanner box bigger and centered */
 .mindar-ui-overlay .scanning {
-  width: 200px;
-  height: 200px;
+  width: 280px !important;
+  height: 280px !important;
   border: 3px dashed #01a451;
-  border-radius: 16px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  background: rgba(255, 255, 255, 0.1);
-  animation: pulse 1.5s infinite;
+  border-radius: 20px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.3);
+  background: rgba(255, 255, 255, 0.04);
+  animation: pulse 1.8s ease-in-out infinite;
+  margin: auto;
 }
 
-/* Optional pulse animation */
+/* Optional: make scanner container take full screen and center everything */
+.mindar-ui-overlay {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* Optional: Add pulse animation to scanner */
 @keyframes pulse {
   0% {
     transform: scale(1);
