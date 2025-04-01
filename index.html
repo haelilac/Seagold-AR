@@ -41,6 +41,11 @@
           console.log("✅ AR is ready");
         });
 
+        scene.addEventListener("targetLost", () => {
+          console.log("👋 Target lost!");
+          mapOverlay.classList.remove("show");
+        });
+
         scene.addEventListener("targetFound", () => {
           console.log("🎯 Target found!");
           mapOverlay.classList.add("show");
