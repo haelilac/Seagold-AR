@@ -1,22 +1,21 @@
-
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
     <title>Seagold AR Business Card</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/aframe/mindar-image-aframe.prod.js"></script>
+    <script src="js/mindar-image-aframe.prod.js"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div id="map-overlay" class="map-overlay">
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.017188678703!2d120.9907802!3d14.6092216!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b6097362c3a1%3A0x91c317caafcd9bb2!2sUniversity%20of%20Santo%20Tomas!5e0!3m2!1sen!2sph!4v1711969146093!5m2!1sen!2sph"
-        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+        width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy"
       ></iframe>
     </div>
 
-    <a-scene mindar-image="imageTargetSrc: assets/back.mind; autoStart: true;"
+    <a-scene mindar-image="imageTargetSrc: assets/back.mind; autoStart: true; uiScanning: true;"
              embedded color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights"
              device-orientation-permission-ui="enabled: true">
       <a-camera position="0 0 0"></a-camera>
@@ -29,19 +28,18 @@
       document.addEventListener("DOMContentLoaded", () => {
         const mapOverlay = document.getElementById("map-overlay");
         const scene = document.querySelector("a-scene");
-        const mindarComponent = scene.components["mindar-image"];
 
         scene.addEventListener("arReady", () => {
-          console.log("AR is ready");
+          console.log("✅ AR is ready");
         });
 
         scene.addEventListener("targetFound", () => {
-          console.log("Target Found");
+          console.log("🎯 Target found!");
           mapOverlay.style.display = "block";
         });
 
         scene.addEventListener("targetLost", () => {
-          console.log("Target Lost");
+          console.log("👋 Target lost!");
           mapOverlay.style.display = "none";
         });
       });
