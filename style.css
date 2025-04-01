@@ -16,14 +16,6 @@ body {
   margin: auto;
 }
 
-/* Optional: make scanner container take full screen and center everything */
-.mindar-ui-overlay {
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
 /* Optional: Add pulse animation to scanner */
 @keyframes pulse {
   0% {
