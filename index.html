@@ -17,7 +17,7 @@
         <!-- Card base -->
         <a-plane position="0 0 0" width="1" height="0.5" color="#00FFAA"></a-plane>
 
-        <!-- Placeholder for map -->
+        <!-- Map image that sticks to card -->
         <a-plane id="mapPlane" position="0.35 0.15 0.01" width="0.5" height="0.3" color="#ddd"></a-plane>
       </a-entity>
     </a-scene>
@@ -25,30 +25,19 @@
     <script>
       const mapPlane = document.getElementById("mapPlane");
 
-      // Scan instruction text
+      // Add scan instruction
       document.querySelector('.mindar-ui-overlay .scanning')?.insertAdjacentHTML(
         'beforeend',
         '<div style="margin-top: 12px; color: white;">Scan your card</div>'
       );
 
-      // Replace this with your own key if needed
       const GOOGLE_API_KEY = "AIzaSyBoAmNMyi-pULIdPSAjDMbRsrHMWeXLLrE";
       const dormPos = { lat: 14.603919, lng: 120.987760 };
 
-      function encodeLatLngs(path) {
-        // This helper function converts lat/lng points to encoded polyline format
-        // But we don’t need to manually encode, we can use Google Directions API's `overview_polyline.points`
-        return path; // placeholder
+      function createSimpleMapUrl(userPos) {
+        return `http://localhost:3001/api/staticmap?userLat=${userPos.lat}&userLng=${userPos.lng}`;
       }
 
-      function createStaticMapUrl(userPos, encodedPath) {
-        const size = "512x512";
-        const markers = [
-          `color:blue|${userPos.lat},${userPos.lng}`,
-          `icon:https://upload.wikimedia.org/wikipedia/commons/6/65/Google_Maps_pin.svg|${dormPos.lat},${dormPos.lng}`
-        ];
-        return `https://maps.googleapis.com/maps/api/staticmap?size=${size}&scale=2&maptype=roadmap&path=enc:${encodedPath}&markers=${markers.join("&markers=")}&key=${GOOGLE_API_KEY}`;
-      }
 
       function setMapTexture(url) {
         mapPlane.setAttribute("material", "src", url);
@@ -60,19 +49,8 @@
           lng: position.coords.longitude
         };
 
-        const directionsUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${userPos.lat},${userPos.lng}&destination=${dormPos.lat},${dormPos.lng}&mode=walking&key=${GOOGLE_API_KEY}`;
-
-        // Use a CORS proxy (like corsproxy.io) since the Google Directions API doesn't allow client-side requests directly
-        fetch(`https://corsproxy.io/?${encodeURIComponent(directionsUrl)}`)
-          .then(res => res.json())
-          .then(data => {
-            const encodedPolyline = data.routes[0].overview_polyline.points;
-            const staticMapUrl = createStaticMapUrl(userPos, encodedPolyline);
-            setMapTexture(staticMapUrl);
-          })
-          .catch(err => {
-            console.error("Failed to fetch directions:", err);
-          });
+        const mapUrl = createSimpleMapUrl(userPos);
+        setMapTexture(mapUrl);
       }, (err) => {
         console.error("Geolocation error:", err);
       });
