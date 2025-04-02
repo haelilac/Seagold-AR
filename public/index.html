@@ -4,21 +4,53 @@
     <meta charset="utf-8" />
     <title>Seagold AR Business Card</title>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <script src="mindar/mindar-image-aframe.prod.js"></script>
-    <link rel="stylesheet" href="style.css" />
+    <script src="./assets/mindar/mindar-image-aframe.prod.js"></script>
+    <style>
+      .clickable {
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .clickable:hover {
+        opacity: 0.8;
+      }
+      .dorm-info {
+        font-family: Arial;
+        color: #333;
+        line-height: 1.2;
+      }
+    </style>
   </head>
   <body>
-    <a-scene mindar-image="imageTargetSrc: assets/back.mind; autoStart: true; uiScanning: true; wasmPath: ./mindar/"
+    <a-scene mindar-image="imageTargetSrc: ./assets/back.mind; autoStart: true; uiScanning: true; wasmPath: ./assets/mindar/"
              embedded color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights"
              device-orientation-permission-ui="enabled: true">
       <a-camera position="0 0 0"></a-camera>
 
       <a-entity id="anchor" mindar-image-target="targetIndex: 0">
-        <!-- Card base -->
-        <a-plane position="0 0 0" width="1" height="0.5" color="#00FFAA"></a-plane>
-
-        <!-- Map image that sticks to card -->
-        <a-plane id="mapPlane" position="0.35 0.15 0.01" width="0.5" height="0.3" color="#ddd"></a-plane>
+        <!-- Card base with website link -->
+        <a-plane class="clickable" position="0 0 0" width="1" height="0.5" color="#00FFAA"
+                onclick="window.open('https://seagold-dormitory.vercel.app', '_blank')">
+          
+          <!-- Dormitory Information -->
+          <a-entity class="dorm-info" position="-0.35 0.1 0.01" text="
+            value: Seagold Dormitory\nCOMFORT AWAY FROM HOME\n\n09225927385\nseagold.service@gmail.com;
+            width: 0.7;
+            align: left;
+            ">
+          </a-entity>
+          
+          <!-- Map image that sticks to card -->
+          <a-plane id="mapPlane" position="0.35 0.15 0.01" width="0.5" height="0.3" color="#ddd"></a-plane>
+          
+          <!-- Website CTA -->
+          <a-text value="Visit Our Website" 
+                 position="0 -0.2 0.01" 
+                 align="center" 
+                 width="0.8"
+                 color="#0066cc"
+                 class="clickable"
+                 onclick="window.open('https://seagold-dormitory.vercel.app', '_blank')"></a-text>
+        </a-plane>
       </a-entity>
     </a-scene>
 
@@ -37,7 +69,6 @@
       function createSimpleMapUrl(userPos) {
         return `http://localhost:3001/api/staticmap?userLat=${userPos.lat}&userLng=${userPos.lng}`;
       }
-
 
       function setMapTexture(url) {
         mapPlane.setAttribute("material", "src", url);
