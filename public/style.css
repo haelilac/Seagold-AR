@@ -1,32 +1,28 @@
-
 body {
   margin: 0;
   overflow: hidden;
 }
 
-/* Force camera video to be centered and fixed in size */
-body video {
-  position: absolute !important;
+/* Enhanced camera video styling with stronger selectors */
+body > video,
+body video.mindar-image-video,
+body video[data-mindar-video] {
+  position: fixed !important;
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
-
   width: 100vw !important;
   height: 100vh !important;
-
-  aspect-ratio: 9 / 16;
-  max-width: 100%;
-  max-height: 100%;
-
+  aspect-ratio: 9/16 !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
   object-fit: contain !important;
   background-color: black !important;
-
   z-index: -2 !important;
   pointer-events: none !important;
 }
 
-
-/* Optional: Add pulse animation to scanner */
+/* Your existing pulse animation (unchanged) */
 @keyframes pulse {
   0% {
     transform: scale(1);
@@ -42,8 +38,7 @@ body video {
   }
 }
 
-
-/* Animation */
+/* Your existing slideUp animation (unchanged) */
 @keyframes slideUp {
   0% {
     opacity: 0;
@@ -55,6 +50,7 @@ body video {
   }
 }
 
+/* Your existing map-overlay styles (unchanged) */
 .map-overlay {
   transform-origin: left center;
   transform: rotateY(-90deg) scale(0.9);
@@ -76,8 +72,7 @@ body video {
   pointer-events: auto;
 }
 
-
-
+/* Your existing map styles (unchanged) */
 #map {
   width: 100%;
   height: 100%;
