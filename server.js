@@ -65,14 +65,20 @@ app.get("/api/staticmap", async (req, res) => {
  */
 app.get("/api/businesscard", (req, res) => {
   res.json({
-    name: "John Doe",
-    title: "Senior Web Developer",
+    name: "Seagold Dormitory",
+    tagline: "COMFORT AWAY FROM HOME",
+    contacts: {
+      phone: "09225927385",
+      email: "seagold.service@gmail.com"
+    },
+    address: "3/F Fern Building, 827 P. Paredes St., Cor. S.H. Loyola St., Sampa.loc, Manila 1008",
     socialLinks: {
-      linkedin: "https://linkedin.com/in/johndoe",
-      github: "https://github.com/johndoe"
+      facebook: "https://facebook.com/seagolddorm",
+      instagram: "https://instagram.com/seagolddorm",
+      website: "https://seagold-dormitory.vercel.app"
     }
   });
-});
+}); 
 
 // =============================================
 // Error Handling

@@ -3,7 +3,7 @@ body {
   overflow: hidden;
 }
 
-/* Enhanced camera video styling with stronger selectors */
+/* Enhanced camera video styling with tracking improvements */
 body > video,
 body video.mindar-image-video,
 body video[data-mindar-video] {
@@ -20,6 +20,13 @@ body video[data-mindar-video] {
   background-color: black !important;
   z-index: -2 !important;
   pointer-events: none !important;
+  
+  /* New fixes for blurry camera */
+  filter: contrast(1.3) saturate(1.2) !important;
+  -webkit-filter: contrast(1.3) saturate(1.2) !important;
+  backface-visibility: hidden !important;
+  image-rendering: crisp-edges !important;
+  transform-style: preserve-3d !important;
 }
 
 /* Your existing pulse animation (unchanged) */
@@ -76,4 +83,53 @@ body video[data-mindar-video] {
 #map {
   width: 100%;
   height: 100%;
+}
+
+/* Enhanced scanning guide with better visibility */
+.mindar-ui-overlay::before {
+  content: "";
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  right: 15%;
+  bottom: 15%;
+  border: 4px dashed rgba(255,255,255,0.8);
+  border-radius: 12px;
+  pointer-events: none;
+  animation: pulseBorder 1.5s infinite ease-in-out;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+@keyframes pulseBorder {
+  0% { 
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  100% { 
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+}
+
+/* New: Focus assist overlay */
+.mindar-ui-overlay::after {
+  content: "Point camera at full card";
+  position: absolute;
+  bottom: 25%;
+  left: 0;
+  right: 0;
+  color: white;
+  text-align: center;
+  font-size: 1.2em;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  animation: fadeInOut 3s infinite;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
 }

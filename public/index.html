@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>Seagold AR Business Card</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="./assets/mindar/mindar-image-aframe.prod.js"></script>
     <link rel="stylesheet" href="style.css" />
@@ -19,11 +20,37 @@
         color: #333;
         line-height: 1.2;
       }
+      
+      /* MindAR Video Fix */
+      body > video.mindar-image-video {
+        filter: contrast(1.2) saturate(1.1) !important;
+        -webkit-filter: contrast(1.2) saturate(1.1) !important;
+        image-rendering: crisp-edges !important;
+      }
+      
+      /* Scanning Guide */
+      .mindar-ui-overlay .scanning::after {
+        content: "";
+        position: absolute;
+        top: 25%;
+        left: 25%;
+        right: 25%;
+        bottom: 25%;
+        border: 2px dashed rgba(255,255,255,0.7);
+        border-radius: 8px;
+        pointer-events: none;
+      }
     </style>
   </head>
   <body>
-    <a-scene mindar-image="imageTargetSrc: ./assets/back.mind; autoStart: true; uiScanning: true; wasmPath: ./assets/mindar/"
-             embedded color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights"
+    <a-scene mindar-image="imageTargetSrc: ./assets/targets.mind; 
+                          autoStart: true; 
+                          uiScanning: true; 
+                          wasmPath: ./assets/mindar/;
+                          filterMinCF: 0.01;
+                          filterBeta: 0.001;"
+             embedded color-space="sRGB" 
+             renderer="colorManagement: true, physicallyCorrectLights"
              device-orientation-permission-ui="enabled: true">
       <a-camera position="0 0 0"></a-camera>
 
@@ -58,11 +85,21 @@
     <script>
       const mapPlane = document.getElementById("mapPlane");
 
-      // Add scan instruction
+      // Enhanced scan instruction
       document.querySelector('.mindar-ui-overlay .scanning')?.insertAdjacentHTML(
         'beforeend',
-        '<div style="margin-top: 12px; color: white;">Scan your card</div>'
+        '<div style="margin-top: 12px; color: white; text-align: center;">Hold steady 30cm from card</div>'
       );
+
+      // Camera quality monitor
+      document.querySelector('a-scene').addEventListener('arReady', () => {
+        const video = document.querySelector('video.mindar-image-video');
+        if (video) {
+          video.addEventListener('play', () => {
+            video.style.filter = 'contrast(1.3) saturate(1.3)';
+          });
+        }
+      });
 
       const GOOGLE_API_KEY = "AIzaSyBoAmNMyi-pULIdPSAjDMbRsrHMWeXLLrE";
       const dormPos = { lat: 14.603919, lng: 120.987760 };
@@ -80,7 +117,6 @@
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
-
         const mapUrl = createSimpleMapUrl(userPos);
         setMapTexture(mapUrl);
       }, (err) => {
